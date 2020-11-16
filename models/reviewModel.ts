@@ -57,7 +57,7 @@ const reviewSchema: Schema = new Schema({
 });
 
 // generate slug, use slug to get image path
-reviewSchema.pre<IReview>('save', function (next) {
+reviewSchema.pre<IReview>('save', function(next) {
   this.slug = slugify(this.gameName, { lower: true });
   this.image = this.slug + '.jpg';
   next();
