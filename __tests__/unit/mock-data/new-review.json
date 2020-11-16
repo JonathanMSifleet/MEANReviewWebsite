@@ -1,0 +1,8 @@
+{
+  "gameName": "Test Game 1234",
+  "tagline": "Test tagline",
+  "blurb": "Test Game blurb",
+  "review": "Review text",
+  "allowComments": true,
+  "author": "Jonathan"
+}

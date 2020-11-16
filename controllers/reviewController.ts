@@ -5,21 +5,19 @@ const Review = require('./../models/reviewModel');
 
 exports.createReview = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
-    const jsonReview = {
-      gameName: req.body.gameName,
-      tagline: req.body.tagline,
-      blurb: req.body.blurb,
-      review: req.body.review,
-      allowComments: req.body.allowComments,
-      author: req.body.author
-    };
+    // const jsonReview = {
+    //   gameName: req.body.gameName,
+    //   tagline: req.body.tagline,
+    //   blurb: req.body.blurb,
+    //   review: req.body.review,
+    //   allowComments: req.body.allowComments,
+    //   author: req.body.author
+    // };
 
-    const newReview = await Review.create(jsonReview);
+    // const newReview = await Review.create(jsonReview);
 
-    res.status(201).json({
-      status: 'success',
-      review: newReview
-    });
+    const newReview = Review.create(req.body);
+    res.status(201).json(newReview);
   }
 );
 
