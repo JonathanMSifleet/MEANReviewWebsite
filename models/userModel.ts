@@ -1,3 +1,4 @@
+// @ts-nocheck
 import crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
@@ -75,13 +76,13 @@ userSchema.pre('save', async function(next): Promise<any> {
 });
 
 // make user email lower case:
-userSchema.pre('save', async function(next): Promise <any> {
+userSchema.pre('save', async function(next: any): Promise <any> {
   this.email = this.email.toLowerCase();
   next();
 });
 
 // format username:
-userSchema.pre('save', async function(next): Promise<any> {
+userSchema.pre('save', async function(next: any): Promise<any> {
   this.firstName = this.firstName.toLowerCase();
   // make first character upper case:
   this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
@@ -90,8 +91,8 @@ userSchema.pre('save', async function(next): Promise<any> {
 
 // check if password is correct:
 userSchema.methods.correctPassword = async (
-  candidatePassword,
-  userPassword
+  candidatePassword: any,
+  userPassword: any
 ) => {
   return await bcrypt.compare(candidatePassword, userPassword);
 };

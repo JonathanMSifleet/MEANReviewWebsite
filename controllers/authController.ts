@@ -5,7 +5,7 @@ const User = require('./../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const signToken = (id) => {
+const signToken = (id: any) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d'
   });
@@ -20,7 +20,7 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
     passwordConfirm: req.body.passwordConfirm
   });
 
-  newUser.save((err) => {
+  newUser.save((err: any) => {
     if (err) {
 
       // send error response:
@@ -57,7 +57,7 @@ exports.login = catchAsyncErrors(async (req: any, res: any) => {
   createSessionToken(user, res);
 });
 
-const createSessionToken = async (user, res) => {
+const createSessionToken = async (user: any, res: any) => {
   const token = signToken(user._id);
 
   // remove unused user properties from output
@@ -77,7 +77,7 @@ const createSessionToken = async (user, res) => {
 };
 
 // add token to database
-const addJWTToDB = async (id, token) => {
+const addJWTToDB = async (id: any, token: any) => {
   const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
 
   // token lasts 24 hours
@@ -118,7 +118,7 @@ exports.deleteAccount = catchAsyncErrors(
 
     const username = req.query.username;
 
-    await User.deleteOne({ username }, (err) => {
+    await User.deleteOne({ username }, (err: any) => {
       if (err) {
         createResErr(res, 404, err);
       }
@@ -130,7 +130,7 @@ exports.deleteAccount = catchAsyncErrors(
   }
 );
 
-exports.protect = catchAsyncErrors(async (req, res, next) => {
+exports.protect = catchAsyncErrors(async (req: any, res: any, next: any) => {
   // 1) Getting token and check of it's there
   let token;
   if (

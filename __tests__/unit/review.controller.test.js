@@ -1,7 +1,7 @@
 const ReviewController = require('../../controllers/reviewController');
 const ReviewModel = require('../../models/reviewModel');
 const httpMocks = require('node-mocks-http');
-const newReview = require('./mock-data/new-review.json')
+const newReview = require('../mock-data/new-review.json');
 
 ReviewModel.create = jest.fn();
 
