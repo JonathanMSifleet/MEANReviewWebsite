@@ -4,6 +4,9 @@ const newReview = require('../mock-data/new-review.json');
 
 const endpointUrl = '/review/';
 
+// tslint:disable-next-line: no-console
+console.log('new review:', newReview);
+
 describe(endpointUrl, () => {
   it('POST ' + endpointUrl, async () => {
     const response = await request(app)
