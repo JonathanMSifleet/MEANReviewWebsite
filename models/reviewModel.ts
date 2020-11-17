@@ -13,7 +13,7 @@ export interface IReview extends Document {
   image: string;
 }
 
-const reviewSchema: Schema = new Schema({
+const ReviewSchema = new Schema({
   gameName: {
     type: String,
     required: [true, 'A review must be about a gane'],
@@ -57,12 +57,12 @@ const reviewSchema: Schema = new Schema({
 });
 
 // generate slug, use slug to get image path
-reviewSchema.pre<IReview>('save', function(next): any {
+ReviewSchema.pre<IReview>('save', function(next): any {
   this.slug = slugify(this.gameName, { lower: true });
   this.image = this.slug + '.jpg';
   next();
 });
 
-const Review = mongoose.model<IReview>('Review', reviewSchema);
+const ReviewModel = mongoose.model<IReview>('Review', ReviewSchema);
 
-module.exports = Review;
+module.exports = ReviewModel;

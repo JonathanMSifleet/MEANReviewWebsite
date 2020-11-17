@@ -12,7 +12,7 @@ beforeEach(() => {
   req = httpMocks.createRequest();
   res =  httpMocks.createResponse();
   next = null;
-})
+});
 
 describe('ReviewController.createReview', () => {
 
@@ -27,7 +27,7 @@ describe('ReviewController.createReview', () => {
     ReviewController.createReview(req, res, next);
     expect(ReviewModel.create).toBeCalledWith(newReview);
   });
-  it("should return 201 response code", async () => {
+  it('should return 201 response code', async () => {
     await ReviewController.createReview(req, res, next);
     expect(res.statusCode).toBe(201);
     expect(res._isEndCalled()).toBeTruthy();

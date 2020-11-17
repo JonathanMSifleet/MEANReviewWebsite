@@ -1,10 +1,9 @@
 import { catchAsyncErrors } from '../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
 
-const Review = require('./../models/reviewModel');
+const ReviewModel = require('./../models/reviewModel');
 
-exports.createReview = catchAsyncErrors(
-  async (req: any, res: any, next: any) => {
+exports.createReview = async (req: any, res: any, next: any) => {
     // const jsonReview = {
     //   gameName: req.body.gameName,
     //   tagline: req.body.tagline,
@@ -15,15 +14,13 @@ exports.createReview = catchAsyncErrors(
     // };
 
     // const newReview = await Review.create(jsonReview);
-
-    const newReview = await Review.create(req.body);
-    res.status(201).json(newReview);
-  }
-);
+    const createdModel = await ReviewModel.create(req.body);
+    res.status(201).json(createdModel);
+};
 
 exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
   // get review from slug
-  const review = await Review.findOne({ slug: req.params.slug });
+  const review = await ReviewModel.findOne({ slug: req.params.slug });
 
   if (!review) {
     createResErr(res, 404, 'No review found with that ID');
@@ -37,7 +34,7 @@ exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
 
 exports.getAllReviews = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
-    const reviews = await Review.find({}).select({
+    const reviews = await ReviewModel.find({}).select({
       gameName: 1,
       tagline: 1,
       slug: 1,
