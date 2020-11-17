@@ -27,14 +27,14 @@ describe('ReviewController.createReview', () => {
     ReviewController.createReview(req, res, next);
     expect(ReviewModel.create).toBeCalledWith(newReview);
   });
-  it("should return 201 or 200 response code", () => {
-    ReviewController.createReview(req, res, next);
+  it("should return 201 or 200 response code", async () => {
+    await ReviewController.createReview(req, res, next);
     expect(res.statusCode).toBe(201);
     expect(res._isEndCalled()).toBeTruthy();
   });
-  it('should return json body in response', () => {
+  it('should return json body in response', async () => {
     ReviewModel.create.mockReturnValue(newReview);
-    ReviewController.createReview(req, res, next);
+    await ReviewController.createReview(req, res, next);
     expect(res._getJSONData()).toStrictEqual(newReview);
   });
 });

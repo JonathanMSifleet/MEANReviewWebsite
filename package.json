@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev server.ts",
-    "test": "jest --watchAll --testPathPattern=__tests__/"
+    "test": "jest --watchAll --detectOpenHandles --testPathPattern=__tests__/"
   },
   "dependencies": {
     "@angular/animations": "~10.1.4",

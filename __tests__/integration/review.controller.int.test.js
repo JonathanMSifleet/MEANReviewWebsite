@@ -1,13 +1,13 @@
 const { response } = require('express');
 const request = require('supertest');
-const app = require('../../app');
+const app = require('../../server');
 const newReview = require('../mock-data/new-review.json');
 
 const endpointUrl = '/review/';
 
 describe(endpointUrl, () => {
-  it('POST ' + endpointUrl, () => {
-    request(app)
+  it('POST ' + endpointUrl, async () => {
+    const response = await request(app)
      .post(endpointUrl)
      .send(newReview);
     expect(response.statusCode).toBe(201);
