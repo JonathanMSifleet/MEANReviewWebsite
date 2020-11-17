@@ -16,6 +16,10 @@
   },
   "include": [
     "node_modules/@types",
+    "**/*.ts",
     "__tests__/**/**.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
