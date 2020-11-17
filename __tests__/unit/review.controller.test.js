@@ -11,11 +11,10 @@ let next;
 beforeEach(() => {
   req = httpMocks.createRequest();
   res =  httpMocks.createResponse();
-  next = null;
+  next = jest.fn();
 });
 
 describe('ReviewController.createReview', () => {
-
   beforeEach(() => {
     req.body = newReview;
   });
@@ -36,5 +35,12 @@ describe('ReviewController.createReview', () => {
     ReviewModel.create.mockReturnValue(newReview);
     await ReviewController.createReview(req, res, next);
     expect(res._getJSONData()).toStrictEqual(newReview);
+  });
+  it('should handle errors', async () => {
+    const errorMessage = { message: 'Author propert misisng' }; 
+    const rejectedPromise = Promise.reject(errorMessage);
+    ReviewModel.create.mockReturnValue(rejectedPromise);
+    await ReviewController.createReview(req, res, next);
+    expect(next).toBeCalledWith(errorMessage);
   });
 });

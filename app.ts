@@ -12,8 +12,13 @@ dotenv.config({ path: './config.env' });
 // connect to MongoDB database:
 mongodb.connect();
 
-app.use(morgan('dev')); // use middleware
 app.use(express.json()); // use middleware
+app.use(morgan('dev')); // use middleware
+
+// app.use((error, req, res, next) => {
+//   res.status(500).json({ message: error.message });
+// });
+
 app.use(cors());
 
 const userRouter = require('./routes/userRoutes');

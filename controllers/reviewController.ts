@@ -12,10 +12,14 @@ exports.createReview = async (req: any, res: any, next: any) => {
     //   allowComments: req.body.allowComments,
     //   author: req.body.author
     // };
-
     // const newReview = await Review.create(jsonReview);
+
+  try {
     const createdModel = await ReviewModel.create(req.body);
     res.status(201).json(createdModel);
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
