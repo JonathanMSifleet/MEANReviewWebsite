@@ -37,7 +37,7 @@ describe('ReviewController.createReview', () => {
     expect(res._getJSONData()).toStrictEqual(newReview);
   });
   it('should handle errors', async () => {
-    const errorMessage = { message: 'Author propert misisng' }; 
+    const errorMessage = { message: 'Author property misisng' }; 
     const rejectedPromise = Promise.reject(errorMessage);
     ReviewModel.create.mockReturnValue(rejectedPromise);
     await ReviewController.createReview(req, res, next);

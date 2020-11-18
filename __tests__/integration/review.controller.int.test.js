@@ -17,8 +17,8 @@ describe(endpointUrl, () => {
     expect(response.body.allowComments).toBe(newReview.allowComments);
     expect(response.body.author).toBe(newReview.author);
   });
-  it(
-    'should return error 500 on malformed data with POST ' + endpointUrl,
+  // will fail if it exists in the database
+  it('should return error 500 on malformed data with POST ' + endpointUrl,
     async () => {
       const response = await request(app)
         .post(endpointUrl)
@@ -28,8 +28,12 @@ describe(endpointUrl, () => {
           blurb: "Test Game blurb",
           review: "Review text",
           allowComments: true
-      });
+        });
       expect(response.statusCode).toBe(500);
+      expect(response.body).toStrictEqual({
+        message:
+          'Review validation failed: author: Path `author` is required.'
+      });
     }
   );
 });

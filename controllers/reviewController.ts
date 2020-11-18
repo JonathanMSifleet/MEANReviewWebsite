@@ -4,19 +4,18 @@ const createResErr = require('./../utils/createResErr');
 const ReviewModel = require('./../models/reviewModel');
 
 exports.createReview = async (req: any, res: any, next: any) => {
-    // const jsonReview = {
-    //   gameName: req.body.gameName,
-    //   tagline: req.body.tagline,
-    //   blurb: req.body.blurb,
-    //   review: req.body.review,
-    //   allowComments: req.body.allowComments,
-    //   author: req.body.author
-    // };
-    // const newReview = await Review.create(jsonReview);
+  const jsonReview = {
+    gameName: req.body.gameName,
+    tagline: req.body.tagline,
+    blurb: req.body.blurb,
+    review: req.body.review,
+    allowComments: req.body.allowComments,
+    author: req.body.author
+  };
 
   try {
-    const createdModel = await ReviewModel.create(req.body);
-    res.status(201).json(createdModel);
+    const newReview = await ReviewModel.create(jsonReview);
+    res.status(201).json(newReview);
   } catch (err) {
     next(err);
   }
