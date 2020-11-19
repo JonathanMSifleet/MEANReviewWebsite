@@ -9,7 +9,7 @@ ReviewModel.find = jest.fn();
 ReviewModel.findOne = jest.fn();
 ReviewModel.findById = jest.fn();
 ReviewModel.findByIdAndUpdate = jest.fn();
-
+ReviewModel.findByIdAndDelete = jest.fn();
 const reviewId = '5f7c6248171bdd46c0f9b7db';
 
 let req;

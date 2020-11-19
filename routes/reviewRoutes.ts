@@ -7,10 +7,8 @@ const router = express.Router();
 
 // routes:
 
-router.options('/createReview', cors());
-router.post(
-  '/createReview',
-  cors(),
+router.options('/', cors());
+router.post('/', cors(),
   // authController.protect,
   reviewController.createReview
 );
@@ -20,6 +18,9 @@ router.get('/', cors(), reviewController.getAllReviews);
 
 router.options('/:reviewId', cors());
 router.get('/:reviewId', cors(), reviewController.getReviewById);
+
+router.options('/:reviewId', cors());
+router.put('/:reviewId', cors(), reviewController.updateReview);
 
 // router.options('/:slug', cors());
 // router.get('/:slug', cors(), reviewController.getReviewBySlug);
