@@ -7,6 +7,7 @@ let firstReview;
 let newReviewId;
 
 const nonExistingReviewId = "5d5fff416bef3c07ecf11f77";
+const testData = { gameName: 'Test Game 1234', tagline: 'Bleep bloop', blurb: 'Bleep bloop bleep', review: 'Test', author: 'Jonathan', allowComments: true};
 
 // check tests below regarding
 // what to do if 1 test fails
@@ -41,6 +42,7 @@ describe(endpointUrl, () => {
     );
     expect(response.statusCode).toBe(404);
   });
+  // will fail if it exists in the database
   it('POST ' + endpointUrl, async () => {
     const response = await request(app)
       .post(endpointUrl)
@@ -74,9 +76,8 @@ describe(endpointUrl, () => {
     }
   );
   test('PUT ' + endpointUrl, async () => {
-    const testData = { gameName: 'Bleep', tagline: 'Bleep bloop', blurb: 'Bleep bloop bleep', review: 'Test', author: 'Jonathan', allowComments: true};
     const res = await request(app)
-      .put(endpointUrl + '5f7c6248171bdd46c0f9b7db') // .put(endpointUrl + newReviewId)
+      .put(endpointUrl + newReviewId) // .put(endpointUrl + newReviewId)
       .send(testData);
     expect(res.statusCode).toBe(200);
     expect(res.body.gameName).toBe(testData.gameName);
@@ -87,10 +88,27 @@ describe(endpointUrl, () => {
     expect(res.body.allowComments).toBe(testData.allowComments);
   });
   it('should return 404 on PUT ' + endpointUrl, async () => {
-    const testData = { gameName: 'Bleep', tagline: 'Bleep bloop'};
     const res = await request(app)
       .put(endpointUrl + nonExistingReviewId)
       .send(testData);
+    expect(res.statusCode).toBe(404);
+  });
+  test('HTTP DELETE', async () => {
+    const res = await request(app)
+    .delete(endpointUrl + newReviewId)
+    .send(testData);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.gameName).toBe(testData.gameName);
+    expect(res.body.tagline).toBe(testData.tagline);
+    expect(res.body.blurb).toBe(testData.blurb);
+    expect(res.body.review).toBe(testData.review);
+    expect(res.body.author).toBe(testData.author);
+    expect(res.body.allowComments).toBe(testData.allowComments);
+  });
+  test('HTTP DELETE 404', async () => {
+    const res = await request(app)
+    .delete(endpointUrl + nonExistingReviewId)
+    .send();
     expect(res.statusCode).toBe(404);
   });
 });

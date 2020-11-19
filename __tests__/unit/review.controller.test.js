@@ -138,6 +138,37 @@ describe('ReviewController.updateReview', () => {
   });
 });
 
+describe('ReviewConroller.deleteReview', () => {
+  it('should have a deleteReview function', () => {
+    expect(typeof ReviewController.deleteReview).toBe('function');
+  });
+  it('should call findByIdAndDelete', async () => {
+    req.params.reviewId = reviewId;
+    await ReviewController.deleteReview(req, res, next);
+    expect(ReviewModel.findByIdAndDelete).toBeCalledWith(reviewId);
+  });
+  it('should return 200 OK and deleted reviewmodel', async () => {
+    ReviewModel.findByIdAndDelete.mockReturnValue(newReview);
+    await ReviewController.deleteReview(req, res, next);
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual(newReview);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+  it('should handle errors', async () => {
+    const errorMessage = { message: 'Error deleting'};
+    const rejectedPromise = Promise.reject(errorMessage);
+    ReviewModel.findByIdAndDelete.mockReturnValue(rejectedPromise);
+    await ReviewController.deleteReview(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
+  it('should handle 404', async () => {
+    ReviewModel.findByIdAndDelete.mockReturnValue(null);
+    await ReviewController.deleteReview(req, res, next);
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+});
+
 // describe('ReviewController.getReview', () => {
 //   it('should have a getReview', () => {
 //     expect(typeof ReviewController.getReview).toBe('function');

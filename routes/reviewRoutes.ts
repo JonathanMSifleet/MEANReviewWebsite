@@ -22,6 +22,9 @@ router.get('/:reviewId', cors(), reviewController.getReviewById);
 router.options('/:reviewId', cors());
 router.put('/:reviewId', cors(), reviewController.updateReview);
 
+router.options('/:reviewId', cors());
+router.delete('/:reviewId', cors(), reviewController.deleteReview);
+
 // router.options('/:slug', cors());
 // router.get('/:slug', cors(), reviewController.getReviewBySlug);
 

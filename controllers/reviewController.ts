@@ -1,3 +1,4 @@
+import { Review } from './../angular/app/pages/review-page/review-page-review.model';
 import { catchAsyncErrors } from '../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
 
@@ -90,6 +91,20 @@ exports.updateReview = async (req, res, next) => {
     });
     if (updatedReview) {
       res.status(200).json(updatedReview);
+    } else {
+      res.status(404).send();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteReview = async (req, res, next) => {
+  try {
+    const deletedReview = await ReviewModel.findByIdAndDelete(req.params.reviewId);
+
+    if (deletedReview) {
+      res.status(200).json(deletedReview);
     } else {
       res.status(404).send();
     }
