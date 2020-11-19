@@ -6,6 +6,11 @@ const allReviews = require('../mock-data/all-reviews.json');
 
 ReviewModel.create = jest.fn();
 ReviewModel.find = jest.fn();
+ReviewModel.findOne = jest.fn();
+ReviewModel.findById = jest.fn();
+ReviewModel.findByIdAndUpdate = jest.fn();
+
+const reviewId = '5f7c6248171bdd46c0f9b7db';
 
 let req;
 let res;
@@ -70,3 +75,96 @@ describe('ReviewController.getAllReviews', () => {
     expect(next).toHaveBeenCalledWith(errorMessage);
   });
 });
+
+describe('ReviewController.getReviewById', () => {
+  it("should have a getReviewById", () => {
+      expect(typeof ReviewController.getReviewById).toBe("function");
+    });
+  it("should call ReviewModel.findById with route parameters", async () => {
+    req.params.reviewId = reviewId;
+    await ReviewController.getReviewById(req, res, next);
+    expect(ReviewModel.findById).toBeCalledWith(reviewId);
+  });
+  it("should return json body and response code 200", async () => {
+    ReviewModel.findById.mockReturnValue(newReview);
+    await ReviewController.getReviewById(req, res, next);
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual(newReview);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+  it("should do error handling", async () => {
+    const errorMessage = { message: "error finding ReviewModel" };
+    const rejectedPromise = Promise.reject(errorMessage);
+    ReviewModel.findById.mockReturnValue(rejectedPromise);
+    await ReviewController.getReviewById(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
+});
+
+describe('ReviewController.updateReview', () => {
+  it('should have an updateReview function', () => {
+    expect(typeof ReviewController.updateReview).toBe('function');
+  });
+  it('should update with Reviewmodel.findByIdAndUpdate', async () => {
+    req.params.reviewId = reviewId;
+    req.body = newReview;
+    await ReviewController.updateReview(req, res, next);
+    expect(ReviewModel.findByIdAndUpdate).toHaveBeenCalledWith(reviewId, newReview, {
+      new: true,
+      useFindAndModify: false
+    });
+  });
+  it('should return a response with json data and http code 200', async () => {
+    req.params.reviewId = reviewId;
+    req.body = newReview;
+    ReviewModel.findByIdAndUpdate.mockReturnValue(newReview);
+    await ReviewController.updateReview(req, res, next);
+    expect(res._isEndCalled()).toBeTruthy();
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual(newReview);
+  });
+  it("should do error handling", async () => {
+    const errorMessage = { message: "error finding reviewModel" };
+    const rejectedPromise = Promise.reject(errorMessage);
+    ReviewModel.findById.mockReturnValue(rejectedPromise);
+    await ReviewController.getReviewById(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
+  it("should handle 404", async () => {
+    ReviewModel.findByIdAndUpdate.mockReturnValue(null);
+    await ReviewController.updateReview(req, res, next);
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+});
+
+// describe('ReviewController.getReview', () => {
+//   it('should have a getReview', () => {
+//     expect(typeof ReviewController.getReview).toBe('function');
+//   });
+//   it('should call ReviewModel.getReview with route parameters', async () => {
+//     req.params.slug = 'test-game-1234';
+//     await ReviewController.getReview(req, res, next);
+//     expect(ReviewModel.getReview).toBeCalledWith('test-game-1234');
+//   });
+//   it('should return json body and response code 200', async () => {
+//     ReviewModel.findOne.mockReturnValue(newReview);
+//     await ReviewController.getReview(req, res, next);
+//     expect(res.statusCode).toBe(200);
+//     expect(res._getJSONData()).toStrictEqual(newReview);
+//     expect(res._isEndCalled()).toBeTruthy();
+//   });
+//   it('should do error handling', async () => {
+//     const errorMessage = { message: 'error finding ReviewModel'};
+//     const rejetedPromise = Promise.reject(errorMessage);
+//     ReviewModel.findOne.mockReturnValue(rejetedPromise);
+//     await ReviewController.getReview(req, res, next);
+//     expect(next).toHaveBeenCalledWith(errorMessage);
+//   });
+//   it('should return 404 when item doesnt exist', async () => {
+//     ReviewModel.findOne.mockReturnValue(null);
+//     await ReviewController.getReview(req, res, next);
+//     expect(res.statusCode).toBe(404);
+//     expect(res._isEndCalled()).toBeTruthy();
+//   });
+// });

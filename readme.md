@@ -12,6 +12,7 @@ To run:
 *******************
 
 To Do (incomplete list):
+- Implement slug unit test
 - Optimisation e.g. lazy loading etc.
 - Optional:
   - Creation of reviews

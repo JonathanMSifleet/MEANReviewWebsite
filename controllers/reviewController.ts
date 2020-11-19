@@ -1,4 +1,3 @@
-import { Review } from './../angular/app/pages/review-page/review-page-review.model';
 import { catchAsyncErrors } from '../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
 
@@ -24,20 +23,6 @@ exports.createReview = catchAsyncErrors(
   }
 );
 
-exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
-  // get review from slug
-  const review = await ReviewModel.findOne({ slug: req.params.slug });
-
-  if (!review) {
-    createResErr(res, 404, 'No review found with that ID');
-  } else {
-    res.status(200).json({
-      status: 'success',
-      data: review
-    });
-  }
-});
-
 exports.getAllReviews = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
     try {
@@ -54,3 +39,61 @@ exports.getAllReviews = catchAsyncErrors(
     }
   }
 );
+
+exports.getReviewById = async (req, res, next) => {
+  try {
+    const review = await ReviewModel.findById(req.params.reviewId);
+    if (review) {
+      res.status(200).json(review);
+    } else {
+      res.status(404).send();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getReviewBySlug = catchAsyncErrors(
+  async (req: any, res: any, next: any) => {
+  // get review from slug
+  // const review = await ReviewModel.findOne({ slug: req.params.slug });
+
+  // if (!review) {
+  //   createResErr(res, 404, 'No review found with that ID');
+  // } else {
+  //   res.status(200).json({
+  //     status: 'success',
+  //     data: review
+  //   });
+  // }
+
+  // for jest:
+  try{
+    const review = await ReviewModel.findOne({slug: req.params.slug});
+    if (review) {
+      res.status(200).json(review);
+    } else {
+      res.status(404).send();
+    }
+  } catch ( err ) {
+    next( err );
+  }
+});
+
+exports.updateReview = async (req, res, next) => {
+  try{
+    const updatedReview = await ReviewModel.findByIdAndUpdate(
+      req.params.reviewId,
+      req.body, {
+        new: true,
+        useFindAndModify: false
+    });
+    if (updatedReview) {
+      res.status(200).json(updatedReview);
+    } else {
+      res.status(404).send();
+    }
+  } catch (err) {
+    next(err);
+  }
+};

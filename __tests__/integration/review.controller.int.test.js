@@ -2,7 +2,9 @@ const request = require('supertest');
 const app = require('../../app');
 const newReview = require('../mock-data/new-review.json');
 
-let endpointUrl = '/review/getAllReviews';
+// must be manually (?) set for each integration test
+let endpointUrl = '/review/';
+let firstReview;
 
 describe(endpointUrl, () => {
   // endPointUrl = '/review/createReview';
@@ -18,7 +20,7 @@ describe(endpointUrl, () => {
   //   expect(response.body.allowComments).toBe(newReview.allowComments);
   //   expect(response.body.author).toBe(newReview.author);
   // });
-  // will fail if it exists in the database
+  // // will fail if it exists in the database
   // it('should return error 500 on malformed data with POST ' + endpointUrl,
   //   async () => {
   //     const response = await request(app)
@@ -49,5 +51,19 @@ describe(endpointUrl, () => {
     expect(response.body[0].review).toBeDefined();
     expect(response.body[0].author).toBeDefined();
     expect(response.body[0].allowComments).toBeDefined();
+    firstReview = response.body[0];
+  });
+  // endpointUrl = '/review/getReviewById';
+  test("GET by Id " + endpointUrl + ":reviewId", async () => {
+    const response = await request(app).get(endpointUrl + firstReview._id);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.title).toBe(firstReview.title);
+    expect(response.body.done).toBe(firstReview.done);
+  });
+  test("GET review by id doesn't exist" + endpointUrl + ":reviewId", async () => {
+    const response = await request(app).get(
+      endpointUrl + "5d5fff416bef3c07ecf11f77"
+    );
+    expect(response.statusCode).toBe(404);
   });
 });

@@ -15,10 +15,13 @@ router.post(
   reviewController.createReview
 );
 
-router.options('/getAllReviews', cors());
-router.get('/getAllReviews', cors(), reviewController.getAllReviews);
+router.options('/', cors());
+router.get('/', cors(), reviewController.getAllReviews);
 
-router.options('/:slug', cors());
-router.get('/:slug', cors(), reviewController.getReview);
+router.options('/:reviewId', cors());
+router.get('/:reviewId', cors(), reviewController.getReviewById);
+
+// router.options('/:slug', cors());
+// router.get('/:slug', cors(), reviewController.getReviewBySlug);
 
 module.exports = router;
