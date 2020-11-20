@@ -11,13 +11,14 @@ const signToken = (id: any) => {
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
-  const jsonUser = {
+  const jsonUser = new UserModel ({
     username: req.body.username,
     firstName: req.body.firstName,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
-  };
+    passwordConfirm: req.body.passwordConfirm,
+    role: req.body.role
+  });
 
   try {
     const newUser = await UserModel.save(jsonUser);
