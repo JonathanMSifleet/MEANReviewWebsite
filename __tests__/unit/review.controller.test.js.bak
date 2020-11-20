@@ -44,7 +44,7 @@ describe('ReviewController.createReview', () => {
     expect(res._getJSONData()).toStrictEqual(newReview);
   });
   it('should handle errors', async () => {
-    const errorMessage = { message: 'Author property misisng' }; 
+    const errorMessage = { message: 'Author property misisng' };
     const rejectedPromise = Promise.reject(errorMessage);
     ReviewModel.create.mockReturnValue(rejectedPromise);
     await ReviewController.createReview(req, res, next);
@@ -68,7 +68,7 @@ describe('ReviewController.getAllReviews', () => {
     expect(res._getJSONData()).toStrictEqual(allReviews);
   });
   it('should handle errors in getAllReviews', async () => {
-    const errorMessage = { message: 'Error finding' }; 
+    const errorMessage = { message: 'Error finding' };
     const rejectedPromise = Promise.reject(errorMessage);
     ReviewModel.find.mockReturnValue(rejectedPromise);
     await ReviewController.getAllReviews(req, res, next);
@@ -77,23 +77,23 @@ describe('ReviewController.getAllReviews', () => {
 });
 
 describe('ReviewController.getReviewById', () => {
-  it("should have a getReviewById", () => {
-      expect(typeof ReviewController.getReviewById).toBe("function");
+  it('should have a getReviewById', () => {
+      expect(typeof ReviewController.getReviewById).toBe('function');
     });
-  it("should call ReviewModel.findById with route parameters", async () => {
+  it('should call ReviewModel.findById with route parameters', async () => {
     req.params.reviewId = reviewId;
     await ReviewController.getReviewById(req, res, next);
     expect(ReviewModel.findById).toBeCalledWith(reviewId);
   });
-  it("should return json body and response code 200", async () => {
+  it('should return json body and response code 200', async () => {
     ReviewModel.findById.mockReturnValue(newReview);
     await ReviewController.getReviewById(req, res, next);
     expect(res.statusCode).toBe(200);
     expect(res._getJSONData()).toStrictEqual(newReview);
     expect(res._isEndCalled()).toBeTruthy();
   });
-  it("should do error handling", async () => {
-    const errorMessage = { message: "error finding ReviewModel" };
+  it('should do error handling', async () => {
+    const errorMessage = { message: 'error finding ReviewModel' };
     const rejectedPromise = Promise.reject(errorMessage);
     ReviewModel.findById.mockReturnValue(rejectedPromise);
     await ReviewController.getReviewById(req, res, next);
@@ -123,14 +123,14 @@ describe('ReviewController.updateReview', () => {
     expect(res.statusCode).toBe(200);
     expect(res._getJSONData()).toStrictEqual(newReview);
   });
-  it("should do error handling", async () => {
-    const errorMessage = { message: "error finding reviewModel" };
+  it('should do error handling', async () => {
+    const errorMessage = { message: 'error finding reviewModel' };
     const rejectedPromise = Promise.reject(errorMessage);
     ReviewModel.findById.mockReturnValue(rejectedPromise);
     await ReviewController.getReviewById(req, res, next);
     expect(next).toHaveBeenCalledWith(errorMessage);
   });
-  it("should handle 404", async () => {
+  it('should handle 404', async () => {
     ReviewModel.findByIdAndUpdate.mockReturnValue(null);
     await ReviewController.updateReview(req, res, next);
     expect(res.statusCode).toBe(404);

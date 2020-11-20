@@ -1,9 +1,8 @@
 const { promisify } = require('util');
 import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
-const User = require('./../models/userModel');
+const UserModel = require('./../models/userModel');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 
 const signToken = (id: any) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -12,33 +11,40 @@ const signToken = (id: any) => {
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
-  const newUser = new User ({
+  const jsonUser = {
     username: req.body.username,
     firstName: req.body.firstName,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm
-  });
+  };
 
-  newUser.save((err: any) => {
-    if (err) {
+  try {
+    const newUser = await UserModel.save(jsonUser);
+    res.status(201).json(newUser);
+  } catch (err) {
+    next(err);
+  }
 
-      // send error response:
-      createResErr(res, 500, err.message);
+  // newUser.save((err: any) => {
+  //   if (err) {
 
-    } else {
-      // sign userID with secret value from
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: '30d'
-      });
+  //     // send error response:
+  //     createResErr(res, 500, err.message);
 
-      res.status(201).json({
-        status: 'success',
-        token,
-        user: newUser
-      });
-    }
-  });
+  //   } else {
+  //     // sign userID with secret value from
+  //     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+  //       expiresIn: '30d'
+  //     });
+
+  //     res.status(201).json({
+  //       status: 'success',
+  //       token,
+  //       user: newUser
+  //     });
+  //   }
+  // });
 });
 
 exports.login = catchAsyncErrors(async (req: any, res: any) => {
@@ -48,7 +54,7 @@ exports.login = catchAsyncErrors(async (req: any, res: any) => {
     createResErr(res, 400, 'Please provide email and password!');
   }
 
-  const user = await User.findOne({ email }).select('+password +token +tokenExpiry'); // + gets fields that are not select in model
+  const user = await UserModel.findOne({ email }).select('+password +token +tokenExpiry'); // + gets fields that are not select in model
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     createResErr(res, 401, 'Incorrect email or password');
@@ -81,7 +87,7 @@ const addJWTToDB = async (id: any, token: any) => {
   const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
 
   // token lasts 24 hours
-  const user = await User.findOneAndUpdate(
+  const user = await UserModel.findOneAndUpdate(
     { _id: id },
     { $set: { token, tokenExpiry} },
     { new: true }
@@ -93,7 +99,7 @@ const addJWTToDB = async (id: any, token: any) => {
 
 
 exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: string) => {
-  const user = await User.findOneAndUpdate({ username: usernameToFind}, { token: '' });
+  const user = await UserModel.findOneAndUpdate({ username: usernameToFind}, { token: '' });
   req.user = null;
 
   res.status(200).json({
@@ -104,29 +110,16 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: st
 
 exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
-    // const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
-
-    // const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
-
-    // if (password !== passwordConfirm) {
-    //   createResErr(res, 401, 'Passwords do not match');
-    // } else if (
-    //   (await user.correctPassword(password, user.password)) === false
-    // ) {
-    //   createResErr(res, 401, 'Incorrect password');
-    // }
-
-    const username = req.query.username;
-
-    await User.deleteOne({ username }, (err: any) => {
-      if (err) {
-        createResErr(res, 404, err);
+    try {
+      const deletedUser = await UserModel.deleteOne(req.params.username);
+      if (deletedUser) {
+        res.status(200).json(deletedUser);
+      } else {
+        res.status(404).send();
       }
-    });
-
-    res.status(204).json({
-      status: 'success'
-    });
+    } catch (err) {
+      next(err);
+    }
   }
 );
 
@@ -151,14 +144,11 @@ exports.protect = catchAsyncErrors(async (req: any, res: any, next: any) => {
   try{
     decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   } catch (e) {}
-
   if (decoded) {
-    const currentUser = await User.findById(decoded.id);
-
+    const currentUser = await UserModel.findById(decoded.id);
     if (!currentUser) {
       isValid = false;
     }
-
   } else {
     isValid = false;
   }

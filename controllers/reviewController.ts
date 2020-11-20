@@ -1,4 +1,3 @@
-import { Review } from './../angular/app/pages/review-page/review-page-review.model';
 import { catchAsyncErrors } from '../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
 
