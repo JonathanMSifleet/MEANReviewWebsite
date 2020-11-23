@@ -46,7 +46,7 @@ describe('AuthController.signup', () => {
     expect(res._getJSONData()).toStrictEqual(newUser);
   });
   it('should handle errors', async () => {
-    const errorMessage = { message: 'Author property misisng' }; 
+    const errorMessage = { message: 'Author property misisng' };
     const rejectedPromise = Promise.reject(errorMessage);
     UserModel.save.mockReturnValue(rejectedPromise);
     await AuthController.signup(req, res, next);

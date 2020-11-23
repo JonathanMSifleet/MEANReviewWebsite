@@ -7,7 +7,7 @@ const signupEndpoint = '/auth/signup/';
 let endpointUrl = '/auth/';
 let newUserId;
 
-const nonExistingUserId = "5d5fff416bef3c07ecf11f77";
+const nonExistingUserId = '5d5fff416bef3c07ecf11f77';
 const testData = {
   email: 'jonathans@apadmi.com',
   firstName: 'Jonathan',
