@@ -11,41 +11,21 @@ const signToken = (id: any) => {
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
-  const jsonUser = {
-    username: req.body.username,
-    firstName: req.body.firstName,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-    role: req.body.role
-  };
+  // const jsonUser = {
+  //   username: req.body.username,
+  //   firstName: req.body.firstName,
+  //   email: req.body.email,
+  //   password: req.body.password,
+  //   passwordConfirm: req.body.passwordConfirm,
+  //   role: req.body.role
+  // };
 
   try {
-    const newUser = await UserModel.save(jsonUser);
+    const newUser = await UserModel.create(req.body);
     res.status(201).json(newUser);
   } catch (err) {
     next(err);
   }
-
-  // newUser.save((err: any) => {
-  //   if (err) {
-
-  //     // send error response:
-  //     createResErr(res, 500, err.message);
-
-  //   } else {
-  //     // sign userID with secret value from
-  //     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-  //       expiresIn: '30d'
-  //     });
-
-  //     res.status(201).json({
-  //       status: 'success',
-  //       token,
-  //       user: newUser
-  //     });
-  //   }
-  // });
 });
 
 exports.login = catchAsyncErrors(async (req: any, res: any) => {
@@ -112,7 +92,8 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: st
 exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
     try {
-      const deletedUser = await UserModel.deleteOne(req.params.username);
+      const deletedUser = await UserModel.findByIdAndDelete(req.params.userId);
+
       if (deletedUser) {
         res.status(200).json(deletedUser);
       } else {

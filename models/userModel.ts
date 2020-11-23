@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, 'USERNAME REQUIRED'],
@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // encrypt password:
-userSchema.pre('save', async function(next): Promise<any> {
+UserSchema.pre('create', async function(next): Promise<any> {
   if (!this.isModified('password')) { return next(); }
   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
   this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
@@ -76,13 +76,13 @@ userSchema.pre('save', async function(next): Promise<any> {
 });
 
 // make user email lower case:
-userSchema.pre('save', async function(next: any): Promise <any> {
+UserSchema.pre('create', async function(next: any): Promise <any> {
   this.email = this.email.toLowerCase();
   next();
 });
 
 // format username:
-userSchema.pre('save', async function(next: any): Promise<any> {
+UserSchema.pre('create', async function(next: any): Promise<any> {
   this.firstName = this.firstName.toLowerCase();
   // make first character upper case:
   this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
@@ -90,13 +90,13 @@ userSchema.pre('save', async function(next: any): Promise<any> {
 });
 
 // check if password is correct:
-userSchema.methods.correctPassword = async (
+UserSchema.methods.correctPassword = async (
   candidatePassword: any,
   userPassword: any
 ) => {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-const User = mongoose.model('User', userSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = User;
+module.exports = UserModel;
