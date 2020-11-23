@@ -4,19 +4,19 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
-router.options('/', cors());
-router.post('/', cors(), authController.signup);
+router.options('/signup', cors());
+router.post('/signup', cors(), authController.signup);
 
-// router.options('/login', cors());
-// router.post('/login', cors(), authController.login);
+router.options('/login', cors());
+router.post('/login', cors(), authController.login);
 
-router.options('/', cors());
-router.patch('/',  cors(), authController.protect, authController.signOut);
+router.options('/signOut', cors());
+router.patch('/signOut',  cors(), authController.protect, authController.signOut);
 
-router.options('/:username', cors());
+router.options('/deleteAccount', cors());
 router.delete(
-  '/:username', cors(),
-  // authController.protect,
+  '/deleteAccount', cors(),
+  authController.protect,
   authController.deleteAccount
 );
 
