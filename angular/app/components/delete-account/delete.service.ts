@@ -11,11 +11,11 @@ export class DeleteService {
     console.log('delete service component username', username);
 
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + token);
+    headers = headers.set('Authorization', 'Bearer ' + token)
 
     const httpOptions = {
-      headers,
-      params: {username}
+      headers: headers,
+      params: {'username': username}
     };
 
     return this.http

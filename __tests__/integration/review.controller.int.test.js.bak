@@ -6,15 +6,8 @@ let endpointUrl = '/review/';
 let firstReview;
 let newReviewId;
 
-const nonExistingReviewId = '5d5fff416bef3c07ecf11f77';
-const testData = {
-  gameName: 'Test Game 1234',
-  tagline: 'Bleep bloop',
-  blurb: 'Bleep bloop bleep',
-  review: 'Test',
-  author: 'Jonathan',
-  allowComments: true
-};
+const nonExistingReviewId = "5d5fff416bef3c07ecf11f77";
+const testData = { gameName: 'Test Game 1234', tagline: 'Bleep bloop', blurb: 'Bleep bloop bleep', review: 'Test', author: 'Jonathan', allowComments: true};
 
 // check tests below regarding
 // what to do if 1 test fails
@@ -33,7 +26,7 @@ describe(endpointUrl, () => {
     expect(response.body[0].allowComments).toBeDefined();
     firstReview = response.body[0];
   });
-  test('GET by Id ' + endpointUrl + ':reviewId', async () => {
+  test("GET by Id " + endpointUrl + ":reviewId", async () => {
     const response = await request(app).get(endpointUrl + firstReview._id);
     expect(response.statusCode).toBe(200);
     expect(response.body.gameName).toBe(firstReview.gameName);
@@ -43,7 +36,7 @@ describe(endpointUrl, () => {
     expect(response.body.allowComments).toBe(firstReview.allowComments);
     expect(response.body.author).toBe(firstReview.author);
   });
-  test('GET review by id doesnt exist' + endpointUrl + ':reviewId', async () => {
+  test("GET review by id doesn't exist" + endpointUrl + ":reviewId", async () => {
     const response = await request(app).get(
       endpointUrl + nonExistingReviewId
     );
@@ -69,10 +62,10 @@ describe(endpointUrl, () => {
       const response = await request(app)
         .post(endpointUrl)
         .send({
-          gameName: 'Test Game 1234',
-          tagline: 'Test tagline',
-          blurb: 'Test Game blurb',
-          review: 'Review text',
+          gameName: "Test Game 1234",
+          tagline: "Test tagline",
+          blurb: "Test Game blurb",
+          review: "Review text",
           allowComments: true
         });
       expect(response.statusCode).toBe(500);
