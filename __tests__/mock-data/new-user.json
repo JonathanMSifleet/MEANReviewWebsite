@@ -1,7 +1,9 @@
 {
+  "_id": "5fb7dd7839334146cc29dcd3",
   "email": "jonathans@apadmi.com",
   "firstName": "Jonathan",
   "password": "test1234",
   "passwordConfirm": "test1234",
-  "username": "JonathanSifleet"
+  "username": "JonathanSifleet",
+  "role": "user"
 }

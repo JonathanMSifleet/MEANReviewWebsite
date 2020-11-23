@@ -33,7 +33,14 @@ describe('AuthController.signup', () => {
   });
   it('should call UserModel.save', () => {
     AuthController.signup(req, res, next);
-    expect(UserModel.save).toBeCalledWith(newUser);
+    expect(UserModel.save).toBeCalledWith({
+      email: newUser.email,
+      firstname: newUser.firstname,
+      password: newUser.password,
+      passwordConfirm: newUser.passwordConfirm,
+      role: newUser.role,
+      username: newUser.username
+    });
   });
   it('should return 201 response code', async () => {
     await AuthController.signup(req, res, next);
