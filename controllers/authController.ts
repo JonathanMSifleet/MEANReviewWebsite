@@ -56,11 +56,10 @@ const createSessionToken = async (user: any, res: any) => {
 
   const tokenData = await addJWTToDB(user._id, token);
 
-  res.status(201).json({
-    status: 'success',
+  res.status(201).json([
     user,
     tokenData
-  });
+  ]);
 };
 
 // add token to database
