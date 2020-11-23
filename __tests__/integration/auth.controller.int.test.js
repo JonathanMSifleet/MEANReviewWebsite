@@ -27,7 +27,7 @@ describe(endpointUrl, () => {
     expect(response.bodyfirstName).toBe(firstname);
     expect(response.body.email).toBe(email);
     expect(response.body.password).toBe(password);
-    expect(response.passwordConfirm).toBe(passwordConfirm);
+    expect(response.body.passwordConfirm).toBe(passwordConfirm);
     newUserId = response.body._id;
   });
   // // will fail if it exists in the database

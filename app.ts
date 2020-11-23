@@ -24,7 +24,7 @@ app.use(cors());
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 
-app.use('/user', userRouter);
+app.use('/auth', userRouter);
 app.use('/review', reviewRouter);
 
 app.use((error, req, res, next) => {
