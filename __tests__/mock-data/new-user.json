@@ -3,5 +3,6 @@
   "firstName": "Jonathan",
   "password": "test1234",
   "passwordConfirm": "test1234",
-  "username": "JonathanSifleet"
+  "username": "JonathanSifleet",
+  "role": "user"
 }
