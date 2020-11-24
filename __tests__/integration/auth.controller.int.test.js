@@ -56,11 +56,8 @@ describe(loginEndpoint, () => {
       .post(loginEndpoint)
       .send(newUser);
     expect(response.statusCode).toBe(201);
-    expect(response.body.username).toBe(newUser.username);
-    expect(response.body.firstName).toBe(newUser.firstName);
     expect(response.body.email).toBe(newUser.email);
     expect(response.body.password).toBe(newUser.password);
-    expect(response.body.passwordConfirm).toBe(newUser.passwordConfirm);
     newUserId = response.body._id;
   });
   // will fail if it exists in the database
