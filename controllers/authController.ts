@@ -1,9 +1,9 @@
-const { promisify } = require('util');
+import { promisify } from 'util';
 import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
 const UserModel = require('./../models/userModel');
-const jwt = require('jsonwebtoken');
-const hashPassword = require('./../utils/hashPassword');
+import jwt from 'jsonwebtoken';
+// const hashPassword = require('./../utils/hashPassword');
 
 const signToken = (id: any) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

@@ -1,6 +1,5 @@
-const express = require('express');
-const cors = require('cors');
-const authController = require('./../controllers/authController');
+import express from 'express';
+import cors from 'cors';
 const reviewController = require('./../controllers/reviewController');
 
 const router = express.Router();
