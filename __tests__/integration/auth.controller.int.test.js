@@ -67,9 +67,7 @@ describe(loginEndpoint, () => {
         .post(loginEndpoint)
         .send({
           email: 'jonathans@apadmi.com',
-          firstName: 'Jonathan',
-          password: 'test1234',
-          passwordConfirm: 'test1234',
+          password: 'test'
         });
       expect(response.statusCode).toBe(500);
       expect(response.body).toStrictEqual({
