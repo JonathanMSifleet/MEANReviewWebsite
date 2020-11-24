@@ -76,8 +76,8 @@ describe(loginEndpoint, () => {
         });
       expect(response.statusCode).toBe(500);
       expect(response.body).toStrictEqual({
-        message:
-          'User validation failed: username: USERNAME REQUIRED'
+        error:
+          'Incorrect email or password'
       });
     }
   );
