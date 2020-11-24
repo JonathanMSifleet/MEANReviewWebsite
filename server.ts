@@ -1,5 +1,4 @@
 // catch exceptions:
-// comment out for jest testing
 process.on('uncaughtException', (err) => {
   console.log('Unhandled exception. Shutting down');
   console.log(err.stack);

@@ -8,14 +8,15 @@ import { response } from 'express';
 export class ReviewsService {
   constructor(private http: HttpClient) {}
 
-  fetchReviews() {
+  fetchReviews(): any {
     return this.http
       .get<{ [key: string]: Review }>(
-        'http://127.0.0.1:3000/review/getAllReviews'
+        'http://127.0.0.1:3000/review/'
       )
       .pipe(
         map((responseData) => {
-          return responseData.data;
+          console.log('responseData:', responseData);
+          return responseData;
         })
       );
   }

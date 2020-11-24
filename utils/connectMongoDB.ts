@@ -9,6 +9,7 @@ async function connect(): Promise<any> {
         useFindAndModify: false,
         useUnifiedTopology: true }
     );
+    console.log('connected to mongodb');
   } catch (e) {
     console.error('Error connecting to mongodb');
     console.error(e);

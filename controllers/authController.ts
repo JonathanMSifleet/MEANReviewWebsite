@@ -47,18 +47,13 @@ exports.login = catchAsyncErrors(async (req: any, res: any) => {
   // if (!user || !(await user.correctPassword(password, user.password))) {
   if (!user || !(password === user.password)) {
     error = true;
-    console.error(`user.correctPassword(${password}, ${user.password}), 'Incorrect email or password'`);
     createResErr(res, 500, 'Incorrect email or password');
   }
 
-
-  console.log('user', user);
   if (!error) {
     await createSessionToken(user);
     res.status(201).json(user);
   }
-  // debug password check
-
 });
 
 const createSessionToken = async (user: any) => {
