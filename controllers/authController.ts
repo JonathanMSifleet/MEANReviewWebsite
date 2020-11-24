@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
-const UserModel = require('./../models/userModel');
+const UserModel = require('../models/userModel');
 import jwt from 'jsonwebtoken';
 // const hashPassword = require('./../utils/hashPassword');
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 
@@ -65,27 +65,27 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-// encrypt password:
-UserSchema.pre('create', async function(next): Promise<any> {
-  if (!this.isModified('password')) { return next(); }
-  this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
-  this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
-  next();
-});
+// // encrypt password:
+// UserSchema.pre('create', async function(next): Promise<any> {
+//   if (!this.isModified('password')) { return next(); }
+//   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
+//   this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
+//   next();
+// });
 
-// make user email lower case:
-UserSchema.pre('create', async function(next: any): Promise <any> {
-  this.email = this.email.toLowerCase();
-  next();
-});
+// // make user email lower case:
+// UserSchema.pre('create', async function(next: any): Promise <any> {
+//   this.email = this.email.toLowerCase();
+//   next();
+// });
 
-// format username:
-UserSchema.pre('create', async function(next: any): Promise<any> {
-  this.firstName = this.firstName.toLowerCase();
-  // make first character upper case:
-  this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
-  next();
-});
+// // format username:
+// UserSchema.pre('create', async function(next: any): Promise<any> {
+//   this.firstName = this.firstName.toLowerCase();
+//   // make first character upper case:
+//   this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
+//   next();
+// });
 
 // check if password is correct:
 UserSchema.methods.correctPassword = async (
@@ -97,4 +97,4 @@ UserSchema.methods.correctPassword = async (
 
 const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = UserModel;
+export default UserModel;

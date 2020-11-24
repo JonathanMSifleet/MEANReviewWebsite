@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import UserModel from '../../../../models/userModel';
 
 @Injectable({ providedIn: 'root' })
 export class DeleteService {
@@ -18,8 +19,12 @@ export class DeleteService {
       params: {username}
     };
 
+    const user = UserModel.findOne({username });
+    console.log('user:', user);
+    // const userId = user.id;
+
     return this.http
-      .delete('http://127.0.0.1:3000/user/deleteAccount', httpOptions);
+      .delete(`http://127.0.0.1:3000/auth/:${user}`, httpOptions);
   }
 
 }
