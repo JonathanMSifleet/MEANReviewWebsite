@@ -15,7 +15,6 @@ export class ReviewsService {
       )
       .pipe(
         map((responseData) => {
-          console.log('responseData:', responseData);
           return responseData;
         })
       );

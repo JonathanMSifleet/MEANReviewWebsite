@@ -13,6 +13,7 @@ To run:
 
 To Do (incomplete list):
 - Implement slug unit test
+- Delete account invalid token
 - Optimisation e.g. lazy loading etc.
 - Optional:
   - Creation of reviews

@@ -17,12 +17,12 @@ export class AuthService {
 
   signUp(postData): Observable<object> {
     return this.http
-      .post('http://127.0.0.1:3000/user/signup', postData);
+      .post('http://127.0.0.1:3000/auth/signup', postData);
   }
 
   signIn(postData: { email; password }): Observable<object> {
     return this.http
-      .post('http://127.0.0.1:3000/user/login', postData);
+      .post('http://127.0.0.1:3000/auth/login', postData);
   }
 
 }
