@@ -32,34 +32,33 @@ exports.login = catchAsyncErrors(async (req: any, res: any) => {
   const { email, password } = req.body; // use destructuring to get values from req.body
 
   if (!email || !password) {
-    createResErr(res, 400, 'Please provide email and password!');
+    // createResErr(res, 400, 'Please provide email and password!');
   }
 
   const user = await UserModel.findOne({ email }).select('+password +token +tokenExpiry'); // + gets fields that are not select in model
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    createResErr(res, 401, 'Incorrect email or password');
+    // createResErr(res, 401, 'Incorrect email or password');
   }
+
+  console.log('user', user);
 
   createSessionToken(user, res);
 });
 
 const createSessionToken = async (user: any, res: any) => {
-  const token = signToken(user._id);
+  const token = await signToken(user._id);
 
-  // remove unused user properties from output
-  user.password = undefined;
-  user.role = undefined;
-  user.firstName = undefined;
-  user.token = undefined;
-  user.tokenExpiry = undefined;
+  // // remove unused user properties from output
+  // user.password = undefined;
+  // user.role = undefined;
+  // user.firstName = undefined;
+  // user.token = undefined;
+  // user.tokenExpiry = undefined;
 
-  const tokenData = await addJWTToDB(user._id, token);
+  await addJWTToDB(user._id, token);
 
-  res.status(201).json([
-    user,
-    tokenData
-  ]);
+  res.status(201).json(user);
 };
 
 // add token to database

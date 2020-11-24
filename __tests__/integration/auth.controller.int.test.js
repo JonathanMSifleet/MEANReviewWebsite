@@ -50,38 +50,38 @@ describe(signupEndpoint, () => {
   );
 });
 
-// describe(loginEndpoint, () => {
-//   it('POST ' + loginEndpoint, async () => {
-//     const response = await request(app)
-//       .post(loginEndpoint)
-//       .send(newUser);
-//     expect(response.statusCode).toBe(201);
-//     expect(response.body.username).toBe(newUser.username);
-//     expect(response.body.firstName).toBe(newUser.firstName);
-//     expect(response.body.email).toBe(newUser.email);
-//     expect(response.body.password).toBe(newUser.password);
-//     expect(response.body.passwordConfirm).toBe(newUser.passwordConfirm);
-//     newUserId = response.body._id;
-//   });
-//   // will fail if it exists in the database
-//   it('should return error 500 on malformed data with POST ' + endpointUrl,
-//     async () => {
-//       const response = await request(app)
-//         .post(endpointUrl)
-//         .send({
-//           email: 'jonathans@apadmi.com',
-//           firstName: 'Jonathan',
-//           password: 'test1234',
-//           passwordConfirm: 'test1234',
-//         });
-//       expect(response.statusCode).toBe(500);
-//       expect(response.body).toStrictEqual({
-//         message:
-//           'User validation failed: username: USERNAME REQUIRED'
-//       });
-//     }
-//   );
-// });
+describe(loginEndpoint, () => {
+  it('POST ' + loginEndpoint, async () => {
+    const response = await request(app)
+      .post(loginEndpoint)
+      .send(newUser);
+    expect(response.statusCode).toBe(201);
+    expect(response.body.username).toBe(newUser.username);
+    expect(response.body.firstName).toBe(newUser.firstName);
+    expect(response.body.email).toBe(newUser.email);
+    expect(response.body.password).toBe(newUser.password);
+    expect(response.body.passwordConfirm).toBe(newUser.passwordConfirm);
+    newUserId = response.body._id;
+  });
+  // will fail if it exists in the database
+  it('should return error 500 on malformed data with POST ' + loginEndpoint,
+    async () => {
+      const response = await request(app)
+        .post(loginEndpoint)
+        .send({
+          email: 'jonathans@apadmi.com',
+          firstName: 'Jonathan',
+          password: 'test1234',
+          passwordConfirm: 'test1234',
+        });
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toStrictEqual({
+        message:
+          'User validation failed: username: USERNAME REQUIRED'
+      });
+    }
+  );
+});
 
 describe(endpointUrl, () => {
   test('HTTP DELETE', async () => {
