@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import bcrypt from 'bcrypt';
+// const bcrypt = require('bcrypt');
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -87,13 +87,13 @@ const UserSchema = new mongoose.Schema({
 //   next();
 // });
 
-// check if password is correct:
-UserSchema.methods.correctPassword = async (
-  candidatePassword: any,
-  userPassword: any
-) => {
-  return await bcrypt.compare(candidatePassword, userPassword);
-};
+// // check if password is correct:
+// UserSchema.methods.correctPassword = async (
+//   candidatePassword: any,
+//   userPassword: any
+// ) => {
+//   return await bcrypt.compare(candidatePassword, userPassword);
+// };
 
 const UserModel = mongoose.model('User', UserSchema);
 

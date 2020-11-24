@@ -58,6 +58,7 @@
     "@types/jest": "^26.0.15",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^12.19.6",
+    "@types/validator": "^13.1.0",
     "codelyzer": "^6.0.0",
     "eslint": "^7.10.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
