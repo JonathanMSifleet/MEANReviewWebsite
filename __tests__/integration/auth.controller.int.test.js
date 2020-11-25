@@ -1,3 +1,4 @@
+const { sign } = require('crypto');
 const request = require('supertest');
 const app = require('../../app');
 const newUser = require('../mock-data/new-user.json');

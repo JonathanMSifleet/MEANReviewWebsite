@@ -12,14 +12,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "sourceMap": true,
-    "types" : ["node"]
+    "sourceMap": true
   },
   "include": [
     "node_modules/@types",
-    "**/**.ts",
-    "__tests__/**/**.ts",
-    "./models/userModel.ts"
+    "**/*.ts",
+    "__tests__/**/**.ts"
   ],
   "exclude": [
     "node_modules"
