@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CardContainerComponent implements OnInit {
   constructor() {}
 
+  @Input() _id: string;
   @Input() title: string;
   @Input() tagline: string;
   @Input() slug: string;

@@ -24,6 +24,7 @@
   <div class="row justify-content-center">
       <ng-container *ngFor="let review of loadedReviews">
         <app-card-container
+          [_id]="review._id"
           [title]="review.gameName"
           [tagline]="review.tagline"
           [slug]="review.slug"
